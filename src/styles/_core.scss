@@ -1,0 +1,129 @@
+.wn {
+  &-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 0 15px;
+    background-color: $primary;
+  }
+
+  &-header {
+    padding: 20px 0;
+    text-align: center;
+
+    &__title {
+      font-size: 3em;
+      color: $secondary;
+    }
+  }
+
+  &-filter {
+    width: 100%;
+    max-width: 450px;
+    margin: 10px auto;
+
+    &__form {
+      display: flex;
+      flex-direction: column;
+
+      &-field {
+        width: 100%;
+        height: 40px;
+        padding: 0 10px;
+        margin-bottom: 5px;
+        border-radius: 2px;
+        font-size: 1.6em;
+        color: $primary;
+        background-color: #fff;
+
+        &--button {
+          color: $secondary;
+          border: 1px solid $secondary;
+          font-weight: bold;
+          cursor: pointer;
+          transition: all 0.25s;
+          background-color: $primary;
+
+          &:hover {
+            color: $primary;
+            background-color: $secondary;
+          }
+        }
+      }
+    }
+
+    &__awesomplete-container {
+      .awesomplete {
+        width: 100%;
+
+        mark {
+          background: #99bdc9;
+        }
+
+        > ul {
+          box-shadow: 0;
+          border: 0;
+
+          > li {
+            padding: 0.5em 0.5em;
+            font-size: 1.25em;
+
+            &:hover {
+              mark {
+                background: #99bdc9;
+              }
+            }
+          }
+        }
+      }
+
+      #mylist {
+        display: none;
+      }
+    }
+  }
+
+  &-weather {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: 20px 0;
+
+    &__location,
+    &__description {
+      color: $secondary;
+    }
+
+    &__location {
+      font-size: 2em;
+    }
+
+    &__description {
+      font-size: 1.6em;
+    }
+
+    &__temperature {
+      margin: 15px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      &-icon {
+        font-size: 6em;
+        color: $secondary;
+        margin-bottom: 10px;
+      }
+
+      &-value {
+        font-size: 2.5em;
+        color: $secondary;
+
+        &--celcius:after {
+          content: '\00b0' 'C';
+          font-size: 0.6em;
+        }
+      }
+    }
+  }
+}

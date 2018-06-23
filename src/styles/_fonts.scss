@@ -1,9 +1,3 @@
-$weatherFontIconsURL: 'https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/font/';
-$weatherIconsEot: '#{$weatherFontIconsURL}weathericons-regular-webfont.eot';
-$weatherIconsWoff: '#{$weatherFontIconsURL}weathericons-regular-webfont.woff';
-$weatherIconsWoff2: '#{$weatherFontIconsURL}weathericons-regular-webfont.woff2';
-$weatherIconsTtf: '#{$weatherFontIconsURL}weathericons-regular-webfont.ttf';
-
 @font-face {
   font-family: 'weathericons';
   src: url('#{$weatherIconsEot}'); /* IE9 Compat Modes */

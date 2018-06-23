@@ -1,21 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <!-- weather icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/css/weather-icons.min.css">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <title>Weather Now</title>
-  </head>
-  <body>
-    <div id="app">
-      Bem vindo ao <div id="app-name"></div>
-      <i class="wi wi-humidity"></i>
-    </div>
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 
-    <script src="./bundle.js"></script>
-  </body>
+  <!-- Weather icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/css/weather-icons.min.css">
+
+  <!-- Font awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <title>Weather Now</title>
+</head>
+
+<body>
+  <section class="wn-container">
+    <header class="wn-header">
+      <h1 class="wn-header__title">
+        Weather Now
+      </h1>
+    </header>
+
+    <section class="wn-filter">
+      <form action="" class="wn-filter__form">
+        <select name="state" class="wn-filter__form-field wn-filter__form-field--states">
+          <option>SC</option>
+          <option>PR</option>
+          <option>RS</option>
+        </select>
+
+        <div class="wn-filter__awesomplete-container">
+          <input class="awesomplete wn-filter__form-field wn-filter__form-field--cities" data-list="#mylist" />
+
+          <ul id="mylist">
+            <li>Ada</li>
+            <li>Java</li>
+            <li>JavaScript</li>
+            <li>Brainfuck</li>
+            <li>LOLCODE</li>
+            <li>Node.js</li>
+            <li>Ruby on Rails</li>
+          </ul>
+        </div>
+
+
+        <button class="awesomplete wn-filter__form-field wn-filter__form-field--button">Como está o clima agora?</button>
+      </form>
+    </section>
+
+    <section class="wn-weather">
+      <div class="wn-weather__location">
+        <span class="wn-weather__favorite">
+          <i class="fa fa-star"></i>
+        </span>
+
+        Blumenau, SC
+      </div>
+
+      <div class="wn-weather__temperature">
+        <i class="wi wi-day-sunny wn-weather__temperature-icon"></i>
+        <div class="wn-weather__temperature-value wn-weather__temperature-value--celcius">26</div>
+      </div>
+
+      <div class="wn-weather__description">
+        Sábado - Ensolarado
+      </div>
+
+    </section>
+  </section>
+
+  <script src="./bundle.js"></script>
+</body>
+
 </html>
