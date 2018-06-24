@@ -1,9 +1,12 @@
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
   mode: 'development',
 
-  entry: './src/index.js',
+  entry: {
+    app: './src/index.js',
+  },
 
   output: {
     filename: 'bundle.js',
@@ -13,8 +16,9 @@ module.exports = {
   devtool: 'source-map',
 
   devServer: {
-    contentBase: path.resolve(__dirname, 'src'),
+    contentBase: path.resolve('./src'),
     port: 9000,
+    hot: true,
   },
 
   module: {
@@ -30,5 +34,16 @@ module.exports = {
         use: ['style-loader', 'css-loader', 'sass-loader'],
       },
     ],
+  },
+
+  plugins: [new webpack.HotModuleReplacementPlugin()],
+
+  resolve: {
+    alias: {
+      '@components': path.resolve(__dirname, 'src/components/'),
+      '@controllers': path.resolve(__dirname, 'src/controllers/'),
+      '@services': path.resolve(__dirname, 'src/services/'),
+      '@constants': path.resolve(__dirname, 'src/constants/'),
+    },
   },
 };

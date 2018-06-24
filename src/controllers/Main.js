@@ -1,5 +1,6 @@
 import Chart from 'chart.js';
 import datalabels from 'chartjs-plugin-datalabels';
+import CitySearch from '@components/CitySearch';
 
 class MainController {
   constructor() {
@@ -7,6 +8,8 @@ class MainController {
   }
 
   init = () => {
+    CitySearch.mount();
+
     const chartElement = document.getElementById('myChart');
     new Chart(chartElement, {
       type: 'line',

@@ -90,6 +90,20 @@
     flex-wrap: wrap;
     margin: 20px 0;
 
+    &__favorite {
+      font-size: 3em;
+      color: $secondary;
+      margin-right: 10px;
+      cursor: pointer;
+      opacity: 0.4;
+      transition: opacity 0.25s;
+
+      &--active,
+      &:hover {
+        opacity: 1;
+      }
+    }
+
     &__location,
     &__description {
       color: $secondary;

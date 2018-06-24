@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
   <meta charset="UTF-8">
@@ -26,38 +26,15 @@
     </header>
 
     <section class="wn-filter">
-      <form action="" class="wn-filter__form">
-        <select name="state" class="wn-filter__form-field wn-filter__form-field--states">
-          <option>SC</option>
-          <option>PR</option>
-          <option>RS</option>
-        </select>
-
-        <div class="wn-filter__awesomplete-container">
-          <input class="awesomplete wn-filter__form-field wn-filter__form-field--cities" data-list="#mylist" />
-
-          <ul id="mylist">
-            <li>Ada</li>
-            <li>Java</li>
-            <li>JavaScript</li>
-            <li>Brainfuck</li>
-            <li>LOLCODE</li>
-            <li>Node.js</li>
-            <li>Ruby on Rails</li>
-          </ul>
-        </div>
-
-
-        <button class="awesomplete wn-filter__form-field wn-filter__form-field--button">Como está o clima agora?</button>
-      </form>
+      <div data-component="city-search"></div>
     </section>
 
     <section class="wn-weather">
+      <span class="wn-weather__favorite">
+        <i class="fa fa-star" title="Adicionar aos favoritos"></i>
+      </span>
       <div class="wn-weather__location-info">
         <div class="wn-weather__location">
-          <span class="wn-weather__favorite">
-            <i class="fa fa-star"></i>
-          </span>
           Blumenau, SC
         </div>
         <div class="wn-weather__description">
