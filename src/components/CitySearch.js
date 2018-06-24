@@ -6,14 +6,30 @@ class CitySearch extends Component {
     super(componentSelector);
 
     this.state = {
+      selectedState: '',
       states: [],
       cities: [],
     };
+
+    this.awesomplete = null;
+    this.selectStateEvent = null;
+    this.searchEvent = null;
+
+    this.$inputCities = null;
   }
 
   renderStates = states => `
-    <select name="state" class="wn-filter__form-field wn-filter__form-field--states">
-      ${states.map(state => `<option value="${state.id}">${state.nome}</option>`).join('')}
+    <select name="state" id="select-state" class="wn-filter__form-field wn-filter__form-field--states">
+      ${states
+        .map(
+          state => `
+          <option
+            value="${state.id}"
+            ${String(state.id) === this.state.selectedState ? 'selected' : ''}
+          >${state.nome}
+          </option>`,
+        )
+        .join('')}
     </select>
   `;
 
@@ -27,15 +43,32 @@ class CitySearch extends Component {
     </div>
   `;
 
-  mounted() {
-    console.log('mounted');
-    new Awesomplete(document.getElementById('input-cities'), { list: '#mylist' });
-  }
+  initAwesomplete = () => {
+    this.$inputCities = document.getElementById('input-cities');
+    this.$inputCities.addEventListener('awesomplete-selectcomplete', this.props.onSelectCity);
 
-  render(props) {
-    console.log('render', props);
-    console.log('render - citySearch...', this.state);
+    this.awesomplete = new Awesomplete(this.$inputCities, {
+      list: '#mylist',
+    });
+  };
 
+  mounted = () => {
+    this.initAwesomplete();
+
+    if (!this.selectStateEvent) {
+      this.selectStateEvent = document
+        .getElementById('select-state')
+        .addEventListener('change', this.props.onSelectChange);
+    }
+
+    if (!this.searchEvent) {
+      this.searchEvent = document
+        .getElementById('search-weather')
+        .addEventListener('click', this.props.onSearchWeather);
+    }
+  };
+
+  render() {
     const { states, cities } = this.state;
 
     if (!states.length || !cities.length) {
@@ -43,12 +76,15 @@ class CitySearch extends Component {
     }
 
     return `
-      <form action="" class="wn-filter__form">
+      <div class="wn-filter__form">
         ${this.renderStates(states)}
         ${this.renderCities(cities)}
         
-        <button class="awesomplete wn-filter__form-field wn-filter__form-field--button">Como está o clima agora?</button>
-      </form>
+        <button
+          id="search-weather"
+          class="awesomplete wn-filter__form-field wn-filter__form-field--button"
+        >Como está o clima agora?</button>
+      </div>
     `;
   }
 }

@@ -6,21 +6,49 @@ import CitySearch from '@components/CitySearch';
 class MainController {
   constructor(SearchLocationService) {
     this.searchLocationService = SearchLocationService;
+
+    this.selectedCity = {};
   }
 
   initLocations = async () => {
-    CitySearch.init();
     const states = await this.searchLocationService.searchStates();
-    const cities = await this.searchLocationService.searchCities(states[0].id);
+    const selectedState = states[0].id;
+    const cities = await this.searchLocationService.searchCities(selectedState);
 
     CitySearch.setState({
+      selectedState,
       states,
       cities,
     });
   };
 
+  searchCities = async evt => {
+    const uf = evt.target.value;
+    console.log({ uf });
+    const cities = await this.searchLocationService.searchCities(uf);
+    CitySearch.setState({
+      selectedState: uf,
+      cities,
+    });
+  };
+
+  handleSelectCity = evt => {
+    const city = evt.target.value;
+    this.selectedCity = { city };
+  };
+
+  handleSearchWeather = evt => {
+    evt.preventDefault();
+    console.log('handleSearchWeather', this.selectedCity);
+  };
+
   init = async () => {
     try {
+      CitySearch.init({
+        onSelectChange: this.searchCities,
+        onSelectCity: this.handleSelectCity,
+        onSearchWeather: this.handleSearchWeather,
+      });
       this.initLocations();
     } catch (err) {
       console.log('err', err);

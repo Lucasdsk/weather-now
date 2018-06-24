@@ -15,7 +15,7 @@ class SearchLocations {
 
   searchCities = async uf => {
     try {
-      const responseCities = await axios.get(`${LOCALITY_HOST}/${uf}/municipios`);
+      const responseCities = await axios.get(`${LOCALITY_HOST}${uf}/municipios`);
       const cities = responseCities.data;
       return cities;
     } catch (err) {

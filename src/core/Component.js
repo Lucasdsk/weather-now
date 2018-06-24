@@ -10,6 +10,7 @@ export default class Component {
     this.__mountedEvent = new Event('mounted');
 
     this.state = {};
+    this.props = {};
   }
 
   set componentElement(componentSelector) {
@@ -23,7 +24,6 @@ export default class Component {
   }
 
   setState = newState => {
-    console.log('setState');
     if (JSON.stringify({ ...this.state, ...newState }) === JSON.stringify(this.state)) {
       return;
     }
@@ -37,22 +37,22 @@ export default class Component {
   };
 
   init = props => {
-    this.mount(props);
+    this.props = props;
 
-    this.$element.addEventListener('mount', () => this.mount());
+    this.mount();
+
+    this.$element.addEventListener('mount', this.mount);
     this.$element.addEventListener('mounted', this.mounted);
   };
 
-  mount = props => {
-    console.log('mount');
-    this.$element.innerHTML = this.render(props);
+  mount = () => {
+    this.$element.innerHTML = this.render();
     this.$element.dispatchEvent(this.__mountedEvent);
   };
 
   mounted() {}
 
-  render(props) {
-    console.log('renderComponent');
+  render() {
     return '<div class="wn-component-loading"><i class="fa fa-spinner fa-spin" aria-hidden="true"></i></div>';
   }
 }
