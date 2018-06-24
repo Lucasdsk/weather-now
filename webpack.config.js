@@ -40,11 +40,11 @@ module.exports = {
 
   resolve: {
     alias: {
-      '@core': path.resolve(__dirname, 'src/core/'),
-      '@components': path.resolve(__dirname, 'src/components/'),
-      '@controllers': path.resolve(__dirname, 'src/controllers/'),
-      '@services': path.resolve(__dirname, 'src/services/'),
-      '@constants': path.resolve(__dirname, 'src/constants/'),
+      core: path.resolve(__dirname, 'src/core/'),
+      components: path.resolve(__dirname, 'src/components/'),
+      controllers: path.resolve(__dirname, 'src/controllers/'),
+      services: path.resolve(__dirname, 'src/services/'),
+      constants: path.resolve(__dirname, 'src/constants/'),
     },
   },
 };

@@ -1,6 +1,8 @@
 import axios from 'axios';
 import moment from 'moment';
 
+import { CACHE_TIME, CITY_SEARCHED } from 'constants';
+
 function NotImplementedException(message) {
   this.message = message;
   this.name = 'NotImplementedException';
@@ -27,33 +29,35 @@ export default class Request {
     this.localStorageService = LocalStorageService;
   }
 
-  isAllowedToRequestAgain = keyRequest => {
-    if (!keyRequest) return true;
+  isAllowedToRequestAgain = (keyRequest, cityName) => {
+    if (!keyRequest || !cityName) return true;
 
     const timeLastFetch = this.localStorageService.getItem(`${keyRequest}_TIME`);
-    if (!timeLastFetch) {
+    const lastCitySearched = this.localStorageService.getItem(CITY_SEARCHED);
+    if (!timeLastFetch || lastCitySearched !== cityName) {
       return true;
     }
 
     return moment().isAfter(timeLastFetch);
   };
 
-  saveResponseRequest = (keyRequest, response) => {
+  saveResponseRequest = (keyRequest, response, cityName) => {
+    this.localStorageService.setItem(CITY_SEARCHED, cityName);
     this.localStorageService.setItem(keyRequest, response);
     this.localStorageService.setItem(
       `${keyRequest}_TIME`,
       moment()
-        .add(10, 'minutes')
+        .add(CACHE_TIME, 'minutes')
         .format(),
     );
   };
 
-  fetch = async (requestURL, keyRequestCache) => {
-    if (this.isAllowedToRequestAgain(keyRequestCache)) {
+  fetch = async (requestURL, keyRequestCache, cityName) => {
+    if (this.isAllowedToRequestAgain(keyRequestCache, cityName)) {
       const { data } = await axios.get(requestURL);
 
-      if (keyRequestCache) {
-        this.saveResponseRequest(keyRequestCache, data);
+      if (keyRequestCache && cityName) {
+        this.saveResponseRequest(keyRequestCache, data, cityName);
       }
       return data;
     }

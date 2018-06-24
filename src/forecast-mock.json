@@ -1,0 +1,167 @@
+{
+  "city": {
+    "id": 3469968,
+    "name": "Blumenau",
+    "coord": {
+      "lon": -49.0659,
+      "lat": -26.9196
+    },
+    "country": "BR",
+    "population": 293949
+  },
+  "cod": "200",
+  "message": 0.0472094,
+  "cnt": 6,
+  "list": [
+    {
+      "dt": 1529852400,
+      "temp": {
+        "day": 19,
+        "min": 13.3,
+        "max": 19,
+        "night": 13.3,
+        "eve": 16,
+        "morn": 19
+      },
+      "pressure": 990.31,
+      "humidity": 81,
+      "weather": [
+        {
+          "id": 500,
+          "main": "Rain",
+          "description": "light rain",
+          "icon": "10d"
+        }
+      ],
+      "speed": 2.5,
+      "deg": 77,
+      "clouds": 24,
+      "rain": 1.49
+    },
+    {
+      "dt": 1529938800,
+      "temp": {
+        "day": 21.55,
+        "min": 13.39,
+        "max": 25.25,
+        "night": 18.36,
+        "eve": 21.32,
+        "morn": 13.39
+      },
+      "pressure": 986.42,
+      "humidity": 88,
+      "weather": [
+        {
+          "id": 500,
+          "main": "Rain",
+          "description": "light rain",
+          "icon": "10d"
+        }
+      ],
+      "speed": 1.27,
+      "deg": 286,
+      "clouds": 0,
+      "rain": 1.18
+    },
+    {
+      "dt": 1530025200,
+      "temp": {
+        "day": 19.32,
+        "min": 14.15,
+        "max": 19.32,
+        "night": 14.15,
+        "eve": 16.52,
+        "morn": 16.35
+      },
+      "pressure": 990.03,
+      "humidity": 88,
+      "weather": [
+        {
+          "id": 500,
+          "main": "Rain",
+          "description": "light rain",
+          "icon": "10d"
+        }
+      ],
+      "speed": 1.61,
+      "deg": 6,
+      "clouds": 80,
+      "rain": 1.84
+    },
+    {
+      "dt": 1530111600,
+      "temp": {
+        "day": 16.89,
+        "min": 13.74,
+        "max": 16.89,
+        "night": 14.42,
+        "eve": 14.66,
+        "morn": 13.74
+      },
+      "pressure": 994.71,
+      "humidity": 0,
+      "weather": [
+        {
+          "id": 500,
+          "main": "Rain",
+          "description": "light rain",
+          "icon": "10d"
+        }
+      ],
+      "speed": 1.25,
+      "deg": 49,
+      "clouds": 86,
+      "rain": 2.56
+    },
+    {
+      "dt": 1530198000,
+      "temp": {
+        "day": 20.61,
+        "min": 15.33,
+        "max": 20.61,
+        "night": 15.44,
+        "eve": 15.45,
+        "morn": 15.33
+      },
+      "pressure": 994.88,
+      "humidity": 0,
+      "weather": [
+        {
+          "id": 500,
+          "main": "Rain",
+          "description": "light rain",
+          "icon": "10d"
+        }
+      ],
+      "speed": 1.28,
+      "deg": 36,
+      "clouds": 32,
+      "rain": 0.56
+    },
+    {
+      "dt": 1530284400,
+      "temp": {
+        "day": 21.36,
+        "min": 16.21,
+        "max": 21.36,
+        "night": 16.21,
+        "eve": 16.87,
+        "morn": 17.2
+      },
+      "pressure": 994.36,
+      "humidity": 0,
+      "weather": [
+        {
+          "id": 500,
+          "main": "Rain",
+          "description": "light rain",
+          "icon": "10d"
+        }
+      ],
+      "speed": 1.06,
+      "deg": 45,
+      "clouds": 91,
+      "rain": 0.71
+    }
+  ]
+}

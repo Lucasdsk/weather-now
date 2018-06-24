@@ -1,8 +1,8 @@
 import axios from 'axios';
-import Request from '@core/Request';
-import LocalStorageService from '@services/LocalStorageService';
+import Request from 'core/Request';
+import LocalStorageService from 'services/LocalStorageService';
 
-import { LOCALITY_HOST, WN_STATES } from '@constants';
+import { LOCALITY_HOST, WN_STATES } from 'constants';
 
 class LocationsService extends Request {
   constructor(LocalStorageService) {

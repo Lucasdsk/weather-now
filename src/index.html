@@ -25,32 +25,11 @@
       </h1>
     </header>
 
-    <section class="wn-filter">
-      <div data-component="city-search"></div>
-    </section>
+    <section class="wn-filter" data-component="city-search"></section>
 
-    <section class="wn-weather">
-      <span class="wn-weather__favorite">
-        <i class="fa fa-star" title="Adicionar aos favoritos"></i>
-      </span>
-      <div class="wn-weather__location-info">
-        <div class="wn-weather__location">
-          Blumenau, SC
-        </div>
-        <div class="wn-weather__description">
-          Sábado - Ensolarado
-        </div>
-      </div>
+    <section class="wn-weather" data-component="weather"></section>
 
-      <div class="wn-weather__temperature">
-        <i class="wi wi-day-sunny wn-weather__temperature-icon"></i>
-        <div class="wn-weather__temperature-value wn-weather__temperature-value--celcius">26</div>
-      </div>
-    </section>
-
-    <section class="wn-chart">
-      <canvas id="myChart"></canvas>
-    </section>
+    <section class="wn-chart" data-component="weather-chart"></section>
   </section>
 
   <script src="./bundle.js"></script>

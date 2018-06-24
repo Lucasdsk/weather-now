@@ -1,4 +1,4 @@
-import Component from '../core/Component';
+import Component from 'core/Component';
 import awesomplete from 'awesomplete';
 
 class CitySearch extends Component {
@@ -26,7 +26,7 @@ class CitySearch extends Component {
           state => `
           <option
             value="${state.id}"
-            ${String(state.id) === this.state.selectedState ? 'selected' : ''}
+            ${state.id === this.state.selectedState ? 'selected' : ''}
           >${state.nome}
           </option>`,
         )
@@ -77,7 +77,7 @@ class CitySearch extends Component {
   render() {
     const { states, cities, selectedCity, selectedState } = this.state;
 
-    if (!states.length || !cities.length) {
+    if (!states.length) {
       return super.render();
     }
 

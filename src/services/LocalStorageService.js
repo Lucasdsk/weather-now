@@ -6,6 +6,10 @@ class LocalStorageService {
   getItem = key => {
     return JSON.parse(localStorage.getItem(key));
   };
+
+  removeItem = key => {
+    localStorage.removeItem(key);
+  };
 }
 
 export default new LocalStorageService();

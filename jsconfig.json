@@ -3,11 +3,11 @@
     "target": "es2015",
     "baseUrl": "./src/",
     "paths": {
-      "@core": ["./src/core/*"],
-      "@components": ["./src/components/*"],
-      "@controllers": ["./src/controllers/*"],
-      "@services": ["./src/services/*"],
-      "@constants": ["./src/constants/*"]
+      "core": ["./src/core/*"],
+      "components": ["./src/components/*"],
+      "controllers": ["./src/controllers/*"],
+      "services": ["./src/services/*"],
+      "constants": ["./src/constants/*"]
     }
   },
   "exclude": ["node_modules"],

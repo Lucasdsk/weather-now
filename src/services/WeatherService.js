@@ -1,11 +1,11 @@
 import axios from 'axios';
 import qs from 'qs';
 
-import Request from '@core/Request';
+import Request from 'core/Request';
 
-import LocalStorageService from '@services/LocalStorageService';
+import LocalStorageService from 'services/LocalStorageService';
 
-import { WEATHER_HOST, APP_ID, WN_WEATHER, WN_FORECAST } from '@constants';
+import { WEATHER_HOST, APP_ID, WN_WEATHER, WN_FORECAST } from 'constants';
 
 class WeatherService extends Request {
   constructor(LocalStorageService) {
@@ -18,6 +18,7 @@ class WeatherService extends Request {
       APPID: APP_ID,
       units: 'metric',
       cnt: 6,
+      lang: 'pt',
     });
 
   search = async (cityName, sufixEndpoint, keyRequestCache) => {
@@ -26,6 +27,7 @@ class WeatherService extends Request {
       const data = await this.fetch(
         `${WEATHER_HOST}${sufixEndpoint}?${queryParams}`,
         keyRequestCache,
+        cityName,
       );
       return data;
     } catch (err) {

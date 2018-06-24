@@ -1,135 +1,156 @@
-import Chart from 'chart.js';
 import datalabels from 'chartjs-plugin-datalabels';
 
-import LocationService from '@services/LocationsService';
-import WeatherService from '@services/WeatherService';
+import LocationService from 'services/LocationsService';
+import WeatherService from 'services/WeatherService';
 
-import CitySearch from '@components/CitySearch';
+import CitySearch from 'components/CitySearch';
+import Weather from 'components/Weather';
+import ForecastChart from 'components/ForecastChart';
+
+import { DEFAULT_FILTER, FAVORITE_LOCATION } from 'constants';
+
+import forecastMock from './../forecast-mock.json';
+import LocalStorageService from 'services/LocalStorageService';
 
 class MainController {
-  constructor(LocationService, WeatherService) {
+  constructor(LocationService, WeatherService, LocalStorageService) {
     this.locationService = LocationService;
     this.weatherService = WeatherService;
+    this.localStorageService = LocalStorageService;
 
-    this.selectedCity = '';
+    this.states = [];
+    this.filter = {
+      state: '',
+      city: '',
+    };
+
+    this.selectedState = {};
   }
 
   initLocations = async () => {
-    const states = await this.locationService.searchStates();
-    const selectedState = states[0].id;
-    const cities = await this.locationService.searchCities(selectedState);
+    this.states = await this.locationService.searchStates();
+    this.selectedState = this.states.find(state => state.id === this.filter.state);
+    const cities = await this.locationService.searchCities(this.filter.state);
 
     CitySearch.setState({
-      selectedState,
-      states,
+      selectedState: this.filter.state,
+      states: this.states,
       cities,
     });
   };
 
   searchCities = async evt => {
-    const uf = evt.target.value;
-    const cities = await this.locationService.searchCities(uf);
+    this.selectedState = this.states.find(state => String(state.id) === evt.target.value);
+    const cities = await this.locationService.searchCities(this.selectedState.id);
 
     CitySearch.setState({
-      selectedState: uf,
+      selectedState: this.selectedState.id,
       selectedCity: '',
       cities,
     });
   };
 
   handleSelectCity = evt => {
-    const city = evt.target.value;
-    this.selectedCity = city;
+    this.filter.city = evt.target.value;
+    console.log('handleSelectCity', this.filter.city);
 
     CitySearch.setState({
-      selectedCity: this.selectedCity,
+      selectedCity: this.filter.city,
     });
   };
 
   handleSearchWeather = async evt => {
-    evt.preventDefault();
+    Weather.setState({
+      loading: true,
+    });
 
-    try {
-      const weatherData = await this.weatherService.searchWeather(this.selectedCity);
-      const forecastData = await this.weatherService.searchForecast(this.selectedCity);
-    } catch (err) {
-      console.log('err', err);
+    ForecastChart.setState({
+      loading: true,
+    });
+
+    const weatherData = await this.weatherService.searchWeather(this.filter.city);
+    // const forecastData = await this.weatherService.searchForecast(this.selectedCity);
+
+    // Using mock, because I can't use the API's key
+    const forecastData = forecastMock;
+
+    this.renderWeather(weatherData);
+
+    ForecastChart.setState({
+      data: forecastData,
+      loading: false,
+    });
+  };
+
+  renderWeather = async weatherData => {
+    const {
+      name,
+      main: { temp, temp_max, temp_min },
+      weather,
+    } = weatherData;
+
+    Weather.setState({
+      name,
+      state: this.selectedState.sigla,
+      temp,
+      temp_max,
+      temp_min,
+      icon: weather[0].icon,
+      description: weather[0].description,
+      loading: false,
+    });
+  };
+
+  handleSaveFavorite = (favoriteActive, cityName) => {
+    if (favoriteActive) {
+      this.localStorageService.setItem(FAVORITE_LOCATION, this.filter);
+    } else {
+      this.localStorageService.removeItem(FAVORITE_LOCATION);
+    }
+  };
+
+  getFavoriveLocation = () => {
+    const favoriteLocation = this.localStorageService.getItem(FAVORITE_LOCATION);
+
+    if (!favoriteLocation) {
+      this.filter = { ...DEFAULT_FILTER };
+    } else {
+      this.filter = { ...favoriteLocation };
     }
   };
 
   init = async () => {
     try {
+      this.getFavoriveLocation();
+
       CitySearch.init({
         onSelectState: this.searchCities,
         onSelectCity: this.handleSelectCity,
         onSearchWeather: this.handleSearchWeather,
       });
-      this.initLocations();
+
+      Weather.init({
+        onFavorite: this.handleSaveFavorite,
+      });
+
+      ForecastChart.init();
+
+      await this.initLocations();
+
+      const weatherData = await this.weatherService.searchWeather(this.filter.city);
+      this.renderWeather(weatherData);
+
+      // const forecastData = await this.weatherService.searchForecast(this.selectedCity);
+      // Using mock, because I can't use the API's key
+      const forecastData = forecastMock;
+
+      ForecastChart.setState({
+        data: forecastData,
+      });
     } catch (err) {
       console.log('err', err);
     }
-
-    const chartElement = document.getElementById('myChart');
-    new Chart(chartElement, {
-      type: 'line',
-      data: {
-        labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6'],
-        datasets: [
-          {
-            label: '',
-            data: [12, 19, 3, 5, 2, 3],
-            borderColor: '#c7e8f3',
-            fill: true,
-            backgroundColor: 'rgba(199, 232, 243, 0.34)',
-          },
-        ],
-      },
-      options: {
-        responsive: true,
-        layout: {
-          padding: {
-            top: 20,
-          },
-        },
-        legend: {
-          display: false,
-        },
-        tooltips: {
-          displayColors: false,
-        },
-        scales: {
-          xAxes: [
-            {
-              ticks: {
-                fontColor: '#c7e8f3',
-              },
-              gridLines: {
-                display: false,
-              },
-            },
-          ],
-
-          yAxes: [
-            {
-              ticks: {
-                fontColor: '#c7e8f3',
-              },
-              gridLines: {
-                display: false,
-              },
-            },
-          ],
-        },
-        plugins: {
-          datalabels: {
-            borderRadius: 4,
-            color: 'white',
-            align: 'top',
-          },
-        },
-      },
-    });
   };
 }
 
-export default new MainController(LocationService, WeatherService);
+export default new MainController(LocationService, WeatherService, LocalStorageService);
