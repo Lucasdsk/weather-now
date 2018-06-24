@@ -1,5 +1,4 @@
 import 'babel-polyfill';
-import awesomplete from 'awesomplete';
 import MainController from './controllers/Main';
 
 import 'awesomplete/awesomplete.css';

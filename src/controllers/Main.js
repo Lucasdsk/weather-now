@@ -1,14 +1,30 @@
 import Chart from 'chart.js';
 import datalabels from 'chartjs-plugin-datalabels';
+import SearchLocationService from '@services/SearchLocations';
 import CitySearch from '@components/CitySearch';
 
 class MainController {
-  constructor() {
-    this.name = 'Weather Now';
+  constructor(SearchLocationService) {
+    this.searchLocationService = SearchLocationService;
   }
 
-  init = () => {
-    CitySearch.mount();
+  initLocations = async () => {
+    CitySearch.init();
+    const states = await this.searchLocationService.searchStates();
+    const cities = await this.searchLocationService.searchCities(states[0].id);
+
+    CitySearch.setState({
+      states,
+      cities,
+    });
+  };
+
+  init = async () => {
+    try {
+      this.initLocations();
+    } catch (err) {
+      console.log('err', err);
+    }
 
     const chartElement = document.getElementById('myChart');
     new Chart(chartElement, {
@@ -73,4 +89,4 @@ class MainController {
   };
 }
 
-export default new MainController();
+export default new MainController(SearchLocationService);

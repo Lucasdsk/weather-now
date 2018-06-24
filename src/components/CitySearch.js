@@ -1,38 +1,56 @@
-import SearchLocationService from '@services/SearchLocations';
-import Component from './Component';
+import Component from '../core/Component';
+import awesomplete from 'awesomplete';
 
 class CitySearch extends Component {
-  constructor() {
-    super('city-search');
+  constructor(componentSelector) {
+    super(componentSelector);
+
+    this.state = {
+      states: [],
+      cities: [],
+    };
   }
 
-  render() {
-    console.log('render - citySearch');
+  renderStates = states => `
+    <select name="state" class="wn-filter__form-field wn-filter__form-field--states">
+      ${states.map(state => `<option value="${state.id}">${state.nome}</option>`).join('')}
+    </select>
+  `;
+
+  renderCities = cities => `
+    <div class="wn-filter__awesomplete-container">
+      <input id="input-cities" class="awesomplete wn-filter__form-field wn-filter__form-field--cities" data-list="#mylist" />
+
+      <ul id="mylist">
+        ${cities.map(city => `<li>${city.nome}</li>`).join('')}
+      </ul>
+    </div>
+  `;
+
+  mounted() {
+    console.log('mounted');
+    new Awesomplete(document.getElementById('input-cities'), { list: '#mylist' });
+  }
+
+  render(props) {
+    console.log('render', props);
+    console.log('render - citySearch...', this.state);
+
+    const { states, cities } = this.state;
+
+    if (!states.length || !cities.length) {
+      return super.render();
+    }
+
     return `
       <form action="" class="wn-filter__form">
-        <select name="state" class="wn-filter__form-field wn-filter__form-field--states">
-          <option>SC</option>
-          <option>PR</option>
-          <option>RS</option>
-        </select>
-
-        <div class="wn-filter__awesomplete-container">
-          <input class="awesomplete wn-filter__form-field wn-filter__form-field--cities" data-list="#mylist" />
-
-          <ul id="mylist">
-            <li>Ada</li>
-            <li>Java</li>
-            <li>JavaScript</li>
-            <li>Brainfuck</li>
-            <li>LOLCODE</li>
-            <li>Node.js</li>
-            <li>Ruby on Rails</li>
-          </ul>
-        </div>
+        ${this.renderStates(states)}
+        ${this.renderCities(cities)}
+        
         <button class="awesomplete wn-filter__form-field wn-filter__form-field--button">Como está o clima agora?</button>
       </form>
     `;
   }
 }
 
-export default new CitySearch(SearchLocationService);
+export default new CitySearch('city-search');
