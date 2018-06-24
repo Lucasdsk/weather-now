@@ -6,6 +6,7 @@ function InvalidElementException(message) {
 export default class Component {
   constructor(componentSelector) {
     this.componentElement = componentSelector;
+
     this.__mountEvent = new Event('mount');
     this.__mountedEvent = new Event('mounted');
 

@@ -1,19 +1,23 @@
 import Chart from 'chart.js';
 import datalabels from 'chartjs-plugin-datalabels';
-import SearchLocationService from '@services/SearchLocations';
+
+import LocationService from '@services/LocationsService';
+import WeatherService from '@services/WeatherService';
+
 import CitySearch from '@components/CitySearch';
 
 class MainController {
-  constructor(SearchLocationService) {
-    this.searchLocationService = SearchLocationService;
+  constructor(LocationService, WeatherService) {
+    this.locationService = LocationService;
+    this.weatherService = WeatherService;
 
-    this.selectedCity = {};
+    this.selectedCity = '';
   }
 
   initLocations = async () => {
-    const states = await this.searchLocationService.searchStates();
+    const states = await this.locationService.searchStates();
     const selectedState = states[0].id;
-    const cities = await this.searchLocationService.searchCities(selectedState);
+    const cities = await this.locationService.searchCities(selectedState);
 
     CitySearch.setState({
       selectedState,
@@ -24,28 +28,39 @@ class MainController {
 
   searchCities = async evt => {
     const uf = evt.target.value;
-    console.log({ uf });
-    const cities = await this.searchLocationService.searchCities(uf);
+    const cities = await this.locationService.searchCities(uf);
+
     CitySearch.setState({
       selectedState: uf,
+      selectedCity: '',
       cities,
     });
   };
 
   handleSelectCity = evt => {
     const city = evt.target.value;
-    this.selectedCity = { city };
+    this.selectedCity = city;
+
+    CitySearch.setState({
+      selectedCity: this.selectedCity,
+    });
   };
 
-  handleSearchWeather = evt => {
+  handleSearchWeather = async evt => {
     evt.preventDefault();
-    console.log('handleSearchWeather', this.selectedCity);
+
+    try {
+      const weatherData = await this.weatherService.searchWeather(this.selectedCity);
+      const forecastData = await this.weatherService.searchForecast(this.selectedCity);
+    } catch (err) {
+      console.log('err', err);
+    }
   };
 
   init = async () => {
     try {
       CitySearch.init({
-        onSelectChange: this.searchCities,
+        onSelectState: this.searchCities,
         onSelectCity: this.handleSelectCity,
         onSearchWeather: this.handleSearchWeather,
       });
@@ -117,4 +132,4 @@ class MainController {
   };
 }
 
-export default new MainController(SearchLocationService);
+export default new MainController(LocationService, WeatherService);

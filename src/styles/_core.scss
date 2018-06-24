@@ -44,9 +44,14 @@
           transition: all 0.25s;
           background-color: $primary;
 
-          &:hover {
+          &:not(:disabled):hover {
             color: $primary;
             background-color: $secondary;
+          }
+
+          &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
           }
         }
       }

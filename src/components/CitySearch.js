@@ -7,6 +7,7 @@ class CitySearch extends Component {
 
     this.state = {
       selectedState: '',
+      selectedCity: '',
       states: [],
       cities: [],
     };
@@ -35,7 +36,12 @@ class CitySearch extends Component {
 
   renderCities = cities => `
     <div class="wn-filter__awesomplete-container">
-      <input id="input-cities" class="awesomplete wn-filter__form-field wn-filter__form-field--cities" data-list="#mylist" />
+      <input
+        id="input-cities"
+        class="awesomplete wn-filter__form-field wn-filter__form-field--cities"
+        data-list="#mylist"
+        value="${this.state.selectedCity}"
+      />
 
       <ul id="mylist">
         ${cities.map(city => `<li>${city.nome}</li>`).join('')}
@@ -58,7 +64,7 @@ class CitySearch extends Component {
     if (!this.selectStateEvent) {
       this.selectStateEvent = document
         .getElementById('select-state')
-        .addEventListener('change', this.props.onSelectChange);
+        .addEventListener('change', this.props.onSelectState);
     }
 
     if (!this.searchEvent) {
@@ -69,7 +75,7 @@ class CitySearch extends Component {
   };
 
   render() {
-    const { states, cities } = this.state;
+    const { states, cities, selectedCity, selectedState } = this.state;
 
     if (!states.length || !cities.length) {
       return super.render();
@@ -83,6 +89,7 @@ class CitySearch extends Component {
         <button
           id="search-weather"
           class="awesomplete wn-filter__form-field wn-filter__form-field--button"
+          ${!selectedState || !selectedCity ? 'disabled' : ''}
         >Como está o clima agora?</button>
       </div>
     `;
