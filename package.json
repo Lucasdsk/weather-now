@@ -4,8 +4,10 @@
   "description": "A web application to show the weather from any city from Brazil",
   "main": "index.js",
   "scripts": {
+    "build": "webpack --mode=production && cp src/index.html dist/",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server --open",
+    "start:dev": "webpack-dev-server --open",
+    "start": "http-server ./dist",
     "precommit": "lint-staged"
   },
   "lint-staged": {

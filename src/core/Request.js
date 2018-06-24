@@ -32,24 +32,24 @@ export default class Request {
   isAllowedToRequestAgain = (keyRequest, cityName) => {
     if (!keyRequest || !cityName) return true;
 
-    const timeLastFetch = this.localStorageService.getItem(`${keyRequest}_TIME`);
-    const lastCitySearched = this.localStorageService.getItem(CITY_SEARCHED);
-    if (!timeLastFetch || lastCitySearched !== cityName) {
+    const lastFetch = this.localStorageService.getItem(`${keyRequest}_INFO`);
+    // const lastCitySearched = this.localStorageService.getItem(CITY_SEARCHED);
+    if (!lastFetch || lastFetch.city !== cityName) {
       return true;
     }
 
-    return moment().isAfter(timeLastFetch);
+    return moment().isAfter(lastFetch.time);
   };
 
   saveResponseRequest = (keyRequest, response, cityName) => {
-    this.localStorageService.setItem(CITY_SEARCHED, cityName);
+    // this.localStorageService.setItem(CITY_SEARCHED, cityName);
     this.localStorageService.setItem(keyRequest, response);
-    this.localStorageService.setItem(
-      `${keyRequest}_TIME`,
-      moment()
+    this.localStorageService.setItem(`${keyRequest}_INFO`, {
+      time: moment()
         .add(CACHE_TIME, 'minutes')
         .format(),
-    );
+      city: cityName,
+    });
   };
 
   fetch = async (requestURL, keyRequestCache, cityName) => {

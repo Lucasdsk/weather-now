@@ -2,6 +2,7 @@ import moment from 'moment';
 import Chart from 'chart.js';
 
 import Component from 'core/Component';
+import WeatherIcon from 'components/WeatherIcon';
 
 const getLabels = data => data.map(({ dt }) => moment.unix(dt).format('ddd'));
 
@@ -78,34 +79,54 @@ class ForecastChart extends Component {
       loading: false,
     };
 
+    this.labels = [];
+
     this.chart = null;
     this.$chartElement = null;
   }
 
   mounted = () => {
-    console.log('mounted');
     this.$chartElement = document.getElementById('weatherChart');
+
     if (this.$chartElement) {
       const data = getData(this.state.data.list);
-      const labels = getLabels(this.state.data.list);
-      const options = chartOptions(data, labels);
-
-      console.log('data', data);
-      console.log('labels', labels);
-      console.log('options', options);
+      const options = chartOptions(data, this.labels);
 
       this.chart = new Chart(this.$chartElement, options);
     }
   };
 
+  renderForecastMinMax = () => {
+    return `
+      <ul class="wn-chart__temperatures">
+        ${this.state.data.list
+          .map(
+            (day, index) =>
+              `<li class="wn-chart__temperatures-day">
+                <strong>${this.labels[index]}</strong>
+                ${WeatherIcon(day.weather[0].icon)}
+                <div class="wn-chart__temperatures-day__min-max">
+                  <span class="min">${Math.round(day.temp.min)}</span>
+                  <span class="max">${Math.round(day.temp.max)}</span>
+                </div>
+              </li>`,
+          )
+          .join('')}
+      </ul>
+    `;
+  };
+
   render() {
     const { data, loading } = this.state;
+
+    this.labels = getLabels(this.state.data.list);
 
     if (!data.list.length || loading) {
       return super.render();
     }
 
     return `
+      ${this.renderForecastMinMax()}
       <canvas id="weatherChart"></canvas>
     `;
   }

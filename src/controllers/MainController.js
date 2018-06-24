@@ -41,10 +41,12 @@ class MainController {
 
   searchCities = async evt => {
     this.selectedState = this.states.find(state => String(state.id) === evt.target.value);
-    const cities = await this.locationService.searchCities(this.selectedState.id);
+    this.filter.state = this.selectedState.id;
+
+    const cities = await this.locationService.searchCities(this.filter.state);
 
     CitySearch.setState({
-      selectedState: this.selectedState.id,
+      selectedState: this.filter.state,
       selectedCity: '',
       cities,
     });
@@ -52,7 +54,6 @@ class MainController {
 
   handleSelectCity = evt => {
     this.filter.city = evt.target.value;
-    console.log('handleSelectCity', this.filter.city);
 
     CitySearch.setState({
       selectedCity: this.filter.city,
@@ -69,10 +70,10 @@ class MainController {
     });
 
     const weatherData = await this.weatherService.searchWeather(this.filter.city);
-    // const forecastData = await this.weatherService.searchForecast(this.selectedCity);
+    const forecastData = await this.weatherService.searchForecast(this.filter.city);
 
     // Using mock, because I can't use the API's key
-    const forecastData = forecastMock;
+    // const forecastData = forecastMock;
 
     this.renderWeather(weatherData);
 
@@ -140,9 +141,10 @@ class MainController {
       const weatherData = await this.weatherService.searchWeather(this.filter.city);
       this.renderWeather(weatherData);
 
-      // const forecastData = await this.weatherService.searchForecast(this.selectedCity);
+      const forecastData = await this.weatherService.searchForecast(this.filter.city);
+
       // Using mock, because I can't use the API's key
-      const forecastData = forecastMock;
+      // const forecastData = forecastMock;
 
       ForecastChart.setState({
         data: forecastData,

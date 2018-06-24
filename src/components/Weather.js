@@ -26,8 +26,9 @@ class Weather extends Component {
   }
 
   mounted = () => {
-    if (!this.favoriteEvent && !this.$favoriteElement) {
-      this.$favoriteElement = document.getElementById('add-favorite');
+    this.$favoriteElement = document.getElementById('add-favorite');
+
+    if (!this.favoriteEvent && this.$favoriteElement) {
       this.favoriteEvent = this.$favoriteElement.addEventListener('click', evt => {
         if (!this.favoriteActive) {
           this.$favoriteElement.classList.add('wn-weather__favorite--active');
@@ -62,8 +63,16 @@ class Weather extends Component {
       </div>
 
       <div class="wn-weather__temperature">
-        ${WheatherIcon(icon)}
-        <div class="wn-weather__temperature-value wn-weather__temperature-value--celcius">${temp}</div>
+        <div class="wn-weather__temperature-main">
+          ${WheatherIcon(icon)}
+          <div class="wn-weather__temperature-value wn-weather__temperature-value--celcius">${Math.round(
+            temp,
+          )}</div>
+        </div>
+        <div class="wn-weather__temperature-min-max">
+          <span class="min">${Math.round(temp_min)}</span>
+          <span class="max">${Math.round(temp_max)}</span>
+        </div>
       </div>
     `;
   }

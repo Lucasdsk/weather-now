@@ -1,6 +1,7 @@
 const LOCALITY_HOST = 'https://servicodados.ibge.gov.br/api/v1/localidades/estados/';
 const WEATHER_HOST = 'http://api.openweathermap.org/data/2.5/';
-const APP_ID = '0ba0bb385a65ca0b4ce8cc068a68ba19';
+// const APP_ID = 'de8a5a1d61a3b5b273e4d1dcfb628bd5';
+const APP_ID = '58b6f7c78582bffab3936dac99c31b25';
 
 const DEFAULT_FILTER = {
   state: 42, // Santa Catarina
